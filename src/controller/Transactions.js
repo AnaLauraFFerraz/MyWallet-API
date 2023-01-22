@@ -4,8 +4,6 @@ import db from "../config/database"
 export async function listTransactions(req, res) {
     const userSession = await db.collection("users").findOne({ _id: session.userId })
     
-    if (!userSession) return res.status(401).send("Sem autorização")
-
     delete userSession.password
 
     res.send(userSession)
