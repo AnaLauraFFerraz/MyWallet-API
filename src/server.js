@@ -7,6 +7,8 @@ const server = express()
 server.use(express.json())
 server.use(cors())
 
+server.use(authRouter)
+
 const PORT = 5000
 
 server.listen(PORT, () => {
