@@ -7,7 +7,7 @@ const server = express()
 server.use(express.json())
 server.use(cors())
 
-server.use(authRouter)
+server.use([authRouter, transactionsRouter])
 
 const PORT = 5000
 
