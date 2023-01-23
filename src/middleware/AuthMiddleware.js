@@ -8,7 +8,6 @@ export async function authValidation(req, res, next) {
 
     try {
         const checkSession = await db.collection("sessions").findOne({ token })
-        console.log("checkSession ", checkSession._id)
 
         if (!checkSession) return res.status(401).send("Sem autorização")
 
@@ -20,11 +19,8 @@ export async function authValidation(req, res, next) {
 
         if (!user) return res.sendStatus(401)
 
-        console.log("res.locals ", res.locals)
-
         next()
     } catch (err) {
-        console.log("authValidation", err.message)
         res.sendStatus(500)
     }
 }

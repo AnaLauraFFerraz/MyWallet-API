@@ -4,14 +4,13 @@ import db from "../config/database.js"
 
 export async function listTransactions(req, res) {
     const { session } = res.locals
-
+    console.log(session)
     try {
         const transactions = await db.collection("transactions")
-            .find({ userId: ObjectId(session._id) }).toArray()
+            .find({ _id: session.userId}).toArray()
 
         return res.status(200).send(transactions)
     } catch (err) {
-        console.log("listTransactions", err.message)
         res.sendStatus(500)
     }
 }
@@ -28,12 +27,11 @@ export async function newIncome(req, res) {
             value: converted,
             description,
             date,
-            userId: ObjectId(session._id)
+            userId: new ObjectId(session._id)
         })
 
         res.sendStatus(201)
     } catch (err) {
-        console.log("newIncome", err.message)
         res.sendStatus(500)
     }
 }
@@ -56,7 +54,6 @@ export async function newExpense(req, res) {
 
         res.sendStatus(201)
     } catch (err) {
-        console.log("newExpense", err.message)
         res.sendStatus(500)
     }
 }
