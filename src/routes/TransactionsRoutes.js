@@ -6,7 +6,7 @@ import { listTransactions, newIncome, newExpense } from "../controller/Transacti
 
 const transactionsRouter = Router()
 
-transactionsRouter.get("/home", listTransactions)
+transactionsRouter.get("/home", authValidation, listTransactions)
 transactionsRouter.post("/nova-entrada", validateSchema(transactionSchema), authValidation, newIncome)
 transactionsRouter.post("/nova-saida", validateSchema(transactionSchema), authValidation, newExpense)
 

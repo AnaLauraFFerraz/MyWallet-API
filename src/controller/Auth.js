@@ -16,7 +16,8 @@ export async function signUp(req, res) {
 
         res.status(201).send("SignUp OK!")
     } catch (err) {
-        res.status(500).send(err.message)
+        console.log("signUp", err.message)
+        res.sendStatus(500)
     }
 }
 
@@ -33,11 +34,13 @@ export async function signIn(req, res) {
         if (!isPassCorrect) return res.status(400).send("Usuário ou senha incorretos")
 
         const token = uuidV4();
+        
         await db.collection("sessions").insertOne({ token, userId: user._id })
 
         return res.status(200).send(token)
     } catch (err) {
-        res.status(500).send(err.message)
+        console.log("signIn", err.message)
+        res.sendStatus(500)
     }
 }
 
