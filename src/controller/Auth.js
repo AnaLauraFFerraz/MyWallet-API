@@ -1,14 +1,19 @@
 import bcrypt from "bcrypt"
 import { v4 as uuidV4 } from "uuid"
-import db from "../config/database"
+import db from "../config/database.js"
 
 export async function signUp(req, res) {
-    const { name, email, password, confirmPassword } = req.body
+    const { name, email, password } = req.body
 
     const passwordHashed = bcrypt.hashSync(password, 10)
 
     try {
+        const isExist = await db.collection("users").findOne({ email })
+
+        if (isExist) return res.sendStatus(409)
+
         await db.collection("users").insertOne({ name, email, password: passwordHashed })
+
         res.status(201).send("SignUp OK!")
     } catch (err) {
         res.status(500).send(err.message)
@@ -19,7 +24,7 @@ export async function signIn(req, res) {
     const { email, password } = req.body
 
     try {
-        const user = await db.collection("users".findOne({ email }))
+        const user = await db.collection("users").findOne({ email })
 
         if (!user) return res.status(400).send("Usuário ou senha incorretos")
 
@@ -35,3 +40,15 @@ export async function signIn(req, res) {
         res.status(500).send(err.message)
     }
 }
+
+// export async function signOut(req, res) {
+//     const { user } = res.locals;
+  
+//     try {
+//       await db.collection("sessions").deleteOne({ userId: new objectId(user._id) });
+  
+//       res.status(200).send("Usuário deslogado com sucesso!");
+//     } catch (error) {
+//       res.sendStatus(500);
+//     }
+//   }
