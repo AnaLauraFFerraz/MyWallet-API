@@ -7,7 +7,7 @@ import { listTransactions, newIncome, newExpense } from "../controller/Transacti
 const transactionsRouter = Router()
 
 transactionsRouter.get("/home", authValidation, listTransactions)
-transactionsRouter.post("/nova-entrada", validateSchema(transactionSchema), authValidation, newIncome)
-transactionsRouter.post("/nova-saida", validateSchema(transactionSchema), authValidation, newExpense)
+transactionsRouter.post("/nova-transacao/entrada", authValidation, validateSchema(transactionSchema), newIncome)
+transactionsRouter.post("/nova-transacao/saida", authValidation, validateSchema(transactionSchema), newExpense)
 
 export default transactionsRouter
