@@ -7,8 +7,7 @@ export async function listTransactions(req, res) {
     console.log(session)
     try {
         const transactions = await db.collection("transactions")
-            .find({ _id: session.userId}).toArray()
-
+            .find({ userId: session.userId }).toArray();
         return res.status(200).send(transactions)
     } catch (err) {
         res.sendStatus(500)
@@ -27,7 +26,7 @@ export async function newIncome(req, res) {
             value: converted,
             description,
             date,
-            userId: new ObjectId(session._id)
+            userId: new ObjectId(session.userId)
         })
 
         res.sendStatus(201)
@@ -49,7 +48,7 @@ export async function newExpense(req, res) {
             value: converted,
             description,
             date,
-            userId: new ObjectId(session._id)
+            userId: new ObjectId(session.userId)
         })
 
         res.sendStatus(201)
