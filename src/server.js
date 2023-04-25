@@ -10,8 +10,8 @@ server.use(express.json())
 server.use(cors())
 server.use([authRouter, transactionsRouter])
 
-const PORT = 5000
+const port = process.env.PORT || 5000
 
-server.listen(PORT, () => {
-    console.log(`Listening on ${PORT}`)
+server.listen(port, () => {
+    console.log(`Listening on ${port}`)
 })
