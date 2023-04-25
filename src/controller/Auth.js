@@ -38,7 +38,12 @@ export async function signIn(req, res) {
         
         await db.collection("sessions").insertOne({ token, userId: user._id })
 
-        return res.status(200).send(token)
+        const response = {
+            token: token,
+            name: user.name,
+        };
+
+        return res.status(200).send(response)
     } catch (err) {
         console.log("signIn", err.message)
         res.sendStatus(500)
