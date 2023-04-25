@@ -15,7 +15,7 @@ export async function signUp(req, res) {
 
         await db.collection("users").insertOne({ name, email, password: passwordHashed })
 
-        res.status(201).send("SignUp OK!")
+        res.sendStatus(201)
     } catch (err) {
         console.log("signUp", err.message)
         res.sendStatus(500)
@@ -28,11 +28,11 @@ export async function signIn(req, res) {
     try {
         const user = await db.collection("users").findOne({ email })
 
-        if (!user) return res.status(400).send("Usuário não existe")
+        if (!user) return res.status(404).send("Usuário não existe")
 
         const isPassCorrect = bcrypt.compareSync(password, user.password)
 
-        if (!isPassCorrect) return res.status(400).send("Usuário ou senha incorretos")
+        if (!isPassCorrect) return res.status(401).send("Usuário ou senha incorretos")
 
         const token = uuidV4();
         
